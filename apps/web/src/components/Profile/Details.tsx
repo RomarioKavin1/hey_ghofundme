@@ -1,6 +1,7 @@
 import type { Profile } from '@hey/lens';
 import type { FC, ReactNode } from 'react';
 
+import Gfmbutton from '@components/GhoFundMe/Gfmbutton';
 import Markup from '@components/Shared/Markup';
 import Follow from '@components/Shared/Profile/Follow';
 import Unfollow from '@components/Shared/Profile/Unfollow';
@@ -53,10 +54,11 @@ import ScamWarning from './ScamWarning';
 import TbaBadge from './TbaBadge';
 
 interface DetailsProps {
+  onsubscribe?: () => void;
   profile: Profile;
 }
 
-const Details: FC<DetailsProps> = ({ profile }) => {
+const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
   const currentProfile = useProfileStore((state) => state.currentProfile);
   const staffMode = useFeatureFlagsStore((state) => state.staffMode);
   const [showMutualFollowersModal, setShowMutualFollowersModal] =
@@ -159,7 +161,16 @@ const Details: FC<DetailsProps> = ({ profile }) => {
             ) : followType === FollowModuleType.FeeFollowModule ? (
               <SuperFollow profile={profile} showText />
             ) : (
-              <Follow profile={profile} showText />
+              <>
+                <Follow profile={profile} showText />
+                <Gfmbutton
+                  onClick={() => {
+                    if (onsubscribe) {
+                      onsubscribe();
+                    }
+                  }}
+                />
+              </>
             )
           ) : null}
 

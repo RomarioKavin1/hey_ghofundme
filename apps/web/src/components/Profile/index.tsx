@@ -15,6 +15,7 @@ import getProfile from '@hey/lib/getProfile';
 import { GridItemEight, GridItemFour, GridLayout } from '@hey/ui';
 import { Leafwatch } from '@lib/leafwatch';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { ProfileFeedType } from 'src/enums';
 import Custom404 from 'src/pages/404';
 import Custom500 from 'src/pages/500';
@@ -29,6 +30,7 @@ import FeedType from './FeedType';
 import ProfilePageShimmer from './Shimmer';
 
 const ViewProfile: NextPage = () => {
+  const [Modal, setModal] = useState(false);
   const {
     isReady,
     query: { handle, id, type }
@@ -93,7 +95,13 @@ const ViewProfile: NextPage = () => {
       />
       <GridLayout>
         <GridItemFour>
-          <Details profile={profile as Profile} />
+          <Details
+            onsubscribe={() => {
+              setModal(true);
+              console.log('onsubscribe', Modal);
+            }}
+            profile={profile as Profile}
+          />
         </GridItemFour>
         <GridItemEight className="space-y-5">
           <FeedType feedType={feedType} />
@@ -112,6 +120,15 @@ const ViewProfile: NextPage = () => {
             <Achievements profile={profile as Profile} />
           ) : null}
         </GridItemEight>
+        {Modal ? (
+          <div
+            className="fixed inset-0 z-50 bg-black bg-opacity-50"
+            onClick={() => {
+              setModal(false);
+              console.log('Modal', Modal);
+            }}
+          />
+        ) : null}
       </GridLayout>
     </>
   );
