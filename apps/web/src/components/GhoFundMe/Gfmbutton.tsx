@@ -1,8 +1,9 @@
 interface GfmbuttonProps {
   onClick?: () => void;
+  subscription: boolean;
 }
 
-const Gfmbutton: React.FC<GfmbuttonProps> = ({ onClick }) => {
+const Gfmbutton: React.FC<GfmbuttonProps> = ({ onClick, subscription }) => {
   const handleButtonClick = () => {
     console.log('open modal base');
     if (onClick) {
@@ -17,7 +18,7 @@ const Gfmbutton: React.FC<GfmbuttonProps> = ({ onClick }) => {
     >
       <div className="i absolute  h-8 w-24 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-yellow-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
       <a className="pointer-events-none z-10 text-center text-sm font-semibold text-yellow-500">
-        Subscribe
+        {!subscription ? 'Subscribe' : 'Subscribed'}
       </a>
     </div>
   );

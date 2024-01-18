@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 
 import MetaTags from '@components/Common/MetaTags';
 import NewPost from '@components/Composer/Post/New';
+import Gfmmodal from '@components/GhoFundMe/Gfmmodal';
 import {
   APP_NAME,
   HANDLE_PREFIX,
@@ -30,7 +31,12 @@ import FeedType from './FeedType';
 import ProfilePageShimmer from './Shimmer';
 
 const ViewProfile: NextPage = () => {
-  const [Modal, setModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [subscription, setSubscription] = useState(false);
+  setSubscription(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const {
     isReady,
     query: { handle, id, type }
@@ -97,8 +103,8 @@ const ViewProfile: NextPage = () => {
         <GridItemFour>
           <Details
             onsubscribe={() => {
-              setModal(true);
-              console.log('onsubscribe', Modal);
+              setIsModalOpen(true);
+              console.log('onsubscribe', isModalOpen);
             }}
             profile={profile as Profile}
           />
@@ -120,15 +126,11 @@ const ViewProfile: NextPage = () => {
             <Achievements profile={profile as Profile} />
           ) : null}
         </GridItemEight>
-        {Modal ? (
-          <div
-            className="fixed inset-0 z-50 bg-black bg-opacity-50"
-            onClick={() => {
-              setModal(false);
-              console.log('Modal', Modal);
-            }}
-          />
-        ) : null}
+        <Gfmmodal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          subscription={subscription}
+        />
       </GridLayout>
     </>
   );

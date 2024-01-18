@@ -1,128 +1,159 @@
-import React from 'react';
+import { GiftIcon } from '@heroicons/react/24/outline';
+import { Card, Modal, Select } from '@hey/ui';
+import Image from 'next/image';
+import React, { useState } from 'react';
 
-function Gfmmodal() {
+import gold from '../../../public/coingold.svg';
+import pink from '../../../public/coinpink.svg';
+import Stepper from './Stepper';
+interface GfmmodalProps {
+  children?: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  subscription: boolean;
+}
+
+const Gfmmodal: React.FC<GfmmodalProps> = ({
+  isOpen,
+  onClose,
+  subscription
+}) => {
+  const [step, setStep] = useState(1);
+  const [tokenName, setTokenName] = useState('');
+  const [tokenCode, setTokenCode] = useState('');
+  const [mintTokenValidity, setMintTokenValidity] = useState('');
+  const [goldquantity, setgoldQuantity] = useState('');
+  const [pinkquantity, setpinkQuantity] = useState('');
+  const [price, setPrice] = useState('');
+  setTokenName('Gab Fan Token');
+  setTokenCode('$GBR');
+  setMintTokenValidity('3 Months');
+  setgoldQuantity('10');
+  setpinkQuantity('10');
+  setPrice('3');
   return (
     <div>
-      <div
-        aria-hidden="true"
-        className="h-modal fixed left-0 right-0 top-4 z-50 hidden items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 md:h-full"
-        id="authentication-modal"
+      <Modal
+        icon={<GiftIcon className="text-brand-500 size-5" />}
+        onClose={() => {
+          onClose();
+          setStep(1);
+        }}
+        show={isOpen}
+        size="md"
+        title={subscription ? 'Subscribe' : 'Your Subscription'}
       >
-        <div className="relative h-full w-full max-w-md px-4 md:h-auto">
-          <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-            <div className="flex justify-end p-2">
-              <button
-                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
-                data-modal-toggle="authentication-modal"
-                type="button"
-              >
-                <svg
-                  className="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-            <form
-              action="#"
-              className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8"
-            >
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                Sign in to our platform
-              </h3>
-              <div>
-                <label
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
-                  htmlFor="email"
-                >
-                  Your email
-                </label>
-                <input
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                  id="email"
-                  name="email"
-                  placeholder="name@company.com"
-                  type="email"
-                />
-              </div>
-              <div>
-                <label
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
-                  htmlFor="password"
-                >
-                  Your password
-                </label>
-                <input
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                  id="password"
-                  name="password"
-                  placeholder="••••••••"
-                  type="password"
-                />
-              </div>
-              <div className="flex justify-between">
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      aria-describedby="remember"
-                      className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                      id="remember"
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      className="font-medium text-gray-900 dark:text-gray-300"
-                      htmlFor="remember"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                  href="#"
-                >
-                  Lost Password?
-                </a>
-              </div>
-              <button
-                className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="submit"
-              >
-                Login to your account
-              </button>
-              <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                Not registered?{' '}
-                <a
-                  className="text-blue-700 hover:underline dark:text-blue-500"
-                  href="#"
-                >
-                  Create account
-                </a>
-              </div>
-            </form>
-          </div>
+        <div className="flex items-center justify-center py-2">
+          <Stepper step={step} />
         </div>
-      </div>
-
-      <p className="mt-5">
-        This modal element is part of a larger, open-source library of Tailwind
-        CSS components. Learn more by going to the official{' '}
-        <a className="text-blue-600 hover:underline" href="#" target="_blank">
-          Flowbite Documentation
-        </a>
-        .
-      </p>
+        {step == 1 && (
+          <div className="flex items-center justify-center py-2">
+            <Select
+              label="Duration"
+              options={[
+                { label: '3 Months', value: '1' },
+                { label: '6 Months', value: '2' },
+                { label: '12 Months', value: '3' }
+              ]}
+            />
+          </div>
+        )}
+        {step < 3 && (
+          <>
+            <div className="flex items-center justify-center py-2">
+              <Card className="w-1/2">
+                <div className="flex items-center justify-center py-2 text-center text-lg font-semibold text-blue-400">
+                  Subscription Details
+                </div>
+                <div className="px-5 pb-3">
+                  Token Name :{' '}
+                  <span className="font-semibold">{tokenName}</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Token Code :{' '}
+                  <span className="font-semibold">{tokenCode}</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Mint Token Validity :{' '}
+                  <span className="font-semibold">{mintTokenValidity}</span>
+                </div>
+                <div className="px-5">Quantity :</div>
+                <div className="flex items-center justify-center py-2 pb-5">
+                  <Image alt="" height={50} src={gold} width={50} />
+                  <span>&nbsp; x {goldquantity} &nbsp;</span>
+                  <Image alt="" height={50} src={pink} width={50} />
+                  <span>&nbsp; x {pinkquantity}</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Price : <span className="font-semibold">{price} GHO</span>
+                </div>
+              </Card>
+            </div>
+            <div className="flex items-center justify-center py-2">
+              <div
+                className="mx-3 flex h-8 w-24 items-center justify-center"
+                onClick={() => (step != 3 ? setStep(step + 1) : setStep(1))}
+              >
+                <div className="i absolute  h-8 w-24 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-blue-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
+                <a className="pointer-events-none z-10 text-center text-sm font-semibold text-blue-500">
+                  Next
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+        {step == 3 && (
+          <>
+            <div className="flex items-center justify-center py-2">
+              <Card className="w-1/2 ">
+                <div className="flex items-center justify-center py-2 text-center text-lg font-semibold text-blue-400">
+                  Subscription Details
+                </div>
+                <div className="px-5 pb-3">
+                  Token Code :{' '}
+                  <span className="font-semibold">{tokenCode}</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Mint Token Validity :{' '}
+                  <span className="font-semibold">{mintTokenValidity}</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Price : <span className="font-semibold">{price} GHO</span>
+                </div>
+              </Card>
+            </div>
+            <div className="flex items-center justify-center py-2">
+              <div className="flex items-center justify-center py-2">
+                <div
+                  className="mx-3 flex h-8 w-24 items-center justify-center"
+                  onClick={() => {
+                    onClose();
+                    setStep(1);
+                  }}
+                >
+                  <div className="i absolute  h-8 w-28 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-red-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
+                  <a className="pointer-events-none z-10 text-center text-sm font-semibold text-red-500">
+                    Cancel
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center justify-center py-2">
+                <div
+                  className="mx-3 flex h-8 w-24 items-center justify-center"
+                  onClick={() => (step != 3 ? setStep(step + 1) : setStep(1))}
+                >
+                  <div className="i absolute  h-8 w-28 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-yellow-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
+                  <a className="pointer-events-none z-10 text-center text-sm font-semibold text-yellow-500">
+                    Confirm & Pay
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   );
-}
+};
 
 export default Gfmmodal;

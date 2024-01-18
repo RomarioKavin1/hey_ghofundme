@@ -64,8 +64,9 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
   const [showMutualFollowersModal, setShowMutualFollowersModal] =
     useState(false);
   const [expandedImage, setExpandedImage] = useState<null | string>(null);
+  const [subscription, setSubscription] = useState(false);
   const { resolvedTheme } = useTheme();
-
+  setSubscription(false);
   const MetaDetails = ({
     children,
     icon
@@ -154,6 +155,14 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
             profile.operations.isFollowedByMe.value ? (
               <>
                 <Unfollow profile={profile} showText />
+                <Gfmbutton
+                  onClick={() => {
+                    if (onsubscribe) {
+                      onsubscribe();
+                    }
+                  }}
+                  subscription={subscription}
+                />
                 {followType === FollowModuleType.FeeFollowModule ? (
                   <SuperFollow again profile={profile} />
                 ) : null}
@@ -169,6 +178,7 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
                       onsubscribe();
                     }
                   }}
+                  subscription={subscription}
                 />
               </>
             )
