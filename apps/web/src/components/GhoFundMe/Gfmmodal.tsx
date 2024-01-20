@@ -1,5 +1,5 @@
 import { GiftIcon } from '@heroicons/react/24/outline';
-import { Card, Modal, Select } from '@hey/ui';
+import { Card, Modal } from '@hey/ui';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -22,9 +22,12 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
   const [tokenName, setTokenName] = useState('Gab Fan Token');
   const [tokenCode, setTokenCode] = useState('$GBR');
   const [mintTokenValidity, setMintTokenValidity] = useState('3 Months');
-  const [goldquantity, setgoldQuantity] = useState('10');
-  const [pinkquantity, setpinkQuantity] = useState('10');
-  const [price, setPrice] = useState('3');
+  const [Tokenprice, setTokenprice] = useState(3);
+  const [sliderValue, setSliderValue] = useState(0);
+
+  const handleSliderChange = (event: { target: { value: string } }) => {
+    setSliderValue(parseInt(event.target.value, 10));
+  };
   return (
     <div>
       <Modal
@@ -41,15 +44,27 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
           <Stepper step={step} />
         </div>
         {step == 1 && (
-          <div className="flex items-center justify-center py-2">
-            <Select
-              label="Duration"
-              options={[
-                { label: '3 Months', value: '1' },
-                { label: '6 Months', value: '2' },
-                { label: '12 Months', value: '3' }
-              ]}
-            />
+          <div className="flex items-center justify-center px-20 py-2">
+            <div>
+              <label
+                className="mb-2 inline-block font-semibold text-blue-400"
+                htmlFor="customRange1"
+              >
+                Tokens
+                <span className="text-sm text-gray-500">
+                  (Usage Rate : 1 Mint Token = 1.825 Days )
+                </span>
+              </label>
+              <input
+                className="transparent h-1.5 w-full cursor-pointer appearance-none rounded-lg border-transparent bg-neutral-200"
+                id="customRange1"
+                max="100" // Set the maximum value to 100
+                min="0"
+                onChange={handleSliderChange} // Handle slider value change
+                type="range"
+                value={sliderValue} // Use the state value for the current position
+              />
+            </div>
           </div>
         )}
         {step < 3 && (
@@ -69,17 +84,26 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
                 </div>
                 <div className="px-5 pb-3">
                   Mint Token Validity :{' '}
-                  <span className="font-semibold">{mintTokenValidity}</span>
+                  <span className="font-semibold">
+                    {(sliderValue * 1.825).toPrecision(5)} Days
+                  </span>
                 </div>
                 <div className="px-5">Quantity :</div>
                 <div className="flex items-center justify-center py-2 pb-5">
                   <Image alt="" height={50} src={gold} width={50} />
-                  <span>&nbsp; x {goldquantity} &nbsp;</span>
+                  <span>&nbsp; x {sliderValue} &nbsp;</span>
                   <Image alt="" height={50} src={pink} width={50} />
-                  <span>&nbsp; x {pinkquantity}</span>
+                  <span>&nbsp; x {sliderValue}</span>
                 </div>
                 <div className="px-5 pb-3">
-                  Price : <span className="font-semibold">{price} GHO</span>
+                  Price Per Token :{' '}
+                  <span className="font-semibold">{Tokenprice} GHO</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Total Price :{' '}
+                  <span className="font-semibold">
+                    {Tokenprice * sliderValue} GHO
+                  </span>
                 </div>
               </Card>
             </div>
@@ -90,7 +114,7 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
               >
                 <div className="i absolute  h-8 w-24 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-blue-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
                 <a className="pointer-events-none z-10 text-center text-sm font-semibold text-blue-500">
-                  Next
+                  {step == 1 ? 'Next' : 'Sign'}
                 </a>
               </div>
             </div>
@@ -99,9 +123,13 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
         {step == 3 && (
           <>
             <div className="flex items-center justify-center py-2">
-              <Card className="w-1/2 ">
+              <Card className="w-1/2">
                 <div className="flex items-center justify-center py-2 text-center text-lg font-semibold text-blue-400">
                   Subscription Details
+                </div>
+                <div className="px-5 pb-3">
+                  Token Name :{' '}
+                  <span className="font-semibold">{tokenName}</span>
                 </div>
                 <div className="px-5 pb-3">
                   Token Code :{' '}
@@ -109,10 +137,26 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
                 </div>
                 <div className="px-5 pb-3">
                   Mint Token Validity :{' '}
-                  <span className="font-semibold">{mintTokenValidity}</span>
+                  <span className="font-semibold">
+                    {(sliderValue * 1.825).toPrecision(5)} Days
+                  </span>
+                </div>
+                <div className="px-5">Quantity :</div>
+                <div className="flex items-center justify-center py-2 pb-5">
+                  <Image alt="" height={50} src={gold} width={50} />
+                  <span>&nbsp; x {sliderValue} &nbsp;</span>
+                  <Image alt="" height={50} src={pink} width={50} />
+                  <span>&nbsp; x {sliderValue}</span>
                 </div>
                 <div className="px-5 pb-3">
-                  Price : <span className="font-semibold">{price} GHO</span>
+                  Price Per Token :{' '}
+                  <span className="font-semibold">{Tokenprice} GHO</span>
+                </div>
+                <div className="px-5 pb-3">
+                  Total Price :{' '}
+                  <span className="font-semibold">
+                    {Tokenprice * sliderValue} GHO
+                  </span>
                 </div>
               </Card>
             </div>
@@ -138,7 +182,7 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
                 >
                   <div className="i absolute  h-8 w-28 transform cursor-pointer items-center overflow-hidden rounded-lg border-[1px] border-yellow-500 bg-transparent shadow-2xl transition duration-300 ease-out hover:bg-white" />
                   <a className="pointer-events-none z-10 text-center text-sm font-semibold text-yellow-500">
-                    Confirm & Pay
+                    Confirm
                   </a>
                 </div>
               </div>
