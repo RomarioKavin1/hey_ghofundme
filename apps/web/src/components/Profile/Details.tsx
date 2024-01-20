@@ -66,7 +66,6 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
   const [expandedImage, setExpandedImage] = useState<null | string>(null);
   const [subscription, setSubscription] = useState(false);
   const { resolvedTheme } = useTheme();
-  setSubscription(false);
   const MetaDetails = ({
     children,
     icon

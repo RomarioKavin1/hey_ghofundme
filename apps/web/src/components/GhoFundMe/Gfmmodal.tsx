@@ -19,18 +19,12 @@ const Gfmmodal: React.FC<GfmmodalProps> = ({
   subscription
 }) => {
   const [step, setStep] = useState(1);
-  const [tokenName, setTokenName] = useState('');
-  const [tokenCode, setTokenCode] = useState('');
-  const [mintTokenValidity, setMintTokenValidity] = useState('');
-  const [goldquantity, setgoldQuantity] = useState('');
-  const [pinkquantity, setpinkQuantity] = useState('');
-  const [price, setPrice] = useState('');
-  setTokenName('Gab Fan Token');
-  setTokenCode('$GBR');
-  setMintTokenValidity('3 Months');
-  setgoldQuantity('10');
-  setpinkQuantity('10');
-  setPrice('3');
+  const [tokenName, setTokenName] = useState('Gab Fan Token');
+  const [tokenCode, setTokenCode] = useState('$GBR');
+  const [mintTokenValidity, setMintTokenValidity] = useState('3 Months');
+  const [goldquantity, setgoldQuantity] = useState('10');
+  const [pinkquantity, setpinkQuantity] = useState('10');
+  const [price, setPrice] = useState('3');
   return (
     <div>
       <Modal

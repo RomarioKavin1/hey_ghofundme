@@ -33,7 +33,6 @@ import ProfilePageShimmer from './Shimmer';
 const ViewProfile: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [subscription, setSubscription] = useState(false);
-  setSubscription(false);
   const closeModal = () => {
     setIsModalOpen(false);
   };
