@@ -129,6 +129,7 @@ const ViewProfile: NextPage = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           subscription={subscription}
+          profile={profile}
         />
       </GridLayout>
     </>

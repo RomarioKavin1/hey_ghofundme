@@ -6,18 +6,29 @@ import React, { useState } from 'react';
 import gold from '../../../public/coingold.svg';
 import pink from '../../../public/coinpink.svg';
 import Stepper from './Stepper';
+import { useReadContract } from 'wagmi';
+import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
+import { Profile } from '@hey/lens';
 interface GfmmodalProps {
   children?: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
   subscription: boolean;
+  profile: Profile;
 }
 
 const Gfmmodal: React.FC<GfmmodalProps> = ({
   isOpen,
   onClose,
-  subscription
+  subscription,
+  profile
 }) => {
+  const { data: account } = useReadContract({
+    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
+    abi: MODULE_ABI,
+    functionName: 'accounts',
+    args: [profile.id]
+  });
   const [step, setStep] = useState(1);
   const [tokenName, setTokenName] = useState('Gab Fan Token');
   const [tokenCode, setTokenCode] = useState('$GBR');

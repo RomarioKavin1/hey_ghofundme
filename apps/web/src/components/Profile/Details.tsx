@@ -7,6 +7,7 @@ import Follow from '@components/Shared/Profile/Follow';
 import Unfollow from '@components/Shared/Profile/Unfollow';
 import Slug from '@components/Shared/Slug';
 import SuperFollow from '@components/Shared/SuperFollow';
+import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
 import {
   ClockIcon,
   Cog6ToothIcon,
@@ -52,6 +53,7 @@ import MutualFollowers from './MutualFollowers';
 import MutualFollowersList from './MutualFollowers/List';
 import ScamWarning from './ScamWarning';
 import TbaBadge from './TbaBadge';
+import { useReadContract } from 'wagmi';
 
 interface DetailsProps {
   onsubscribe?: () => void;
@@ -79,6 +81,12 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
     </div>
   );
 
+  const { data: account } = useReadContract({
+    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
+    abi: MODULE_ABI,
+    functionName: 'accounts',
+    args: [profile.id]
+  });
   const followType = profile?.followModule?.type;
   const misuseDetails = getMisuseDetails(profile.id);
 
@@ -154,14 +162,16 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
             profile.operations.isFollowedByMe.value ? (
               <>
                 <Unfollow profile={profile} showText />
-                <Gfmbutton
-                  onClick={() => {
-                    if (onsubscribe) {
-                      onsubscribe();
-                    }
-                  }}
-                  subscription={subscription}
-                />
+                {account != undefined && (account as any).exists && (
+                  <Gfmbutton
+                    onClick={() => {
+                      if (onsubscribe) {
+                        onsubscribe();
+                      }
+                    }}
+                    subscription={subscription}
+                  />
+                )}
                 {followType === FollowModuleType.FeeFollowModule ? (
                   <SuperFollow again profile={profile} />
                 ) : null}
@@ -171,14 +181,16 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
             ) : (
               <>
                 <Follow profile={profile} showText />
-                <Gfmbutton
-                  onClick={() => {
-                    if (onsubscribe) {
-                      onsubscribe();
-                    }
-                  }}
-                  subscription={subscription}
-                />
+                {account != undefined && (account as any).exists && (
+                  <Gfmbutton
+                    onClick={() => {
+                      if (onsubscribe) {
+                        onsubscribe();
+                      }
+                    }}
+                    subscription={subscription}
+                  />
+                )}
               </>
             )
           ) : null}
