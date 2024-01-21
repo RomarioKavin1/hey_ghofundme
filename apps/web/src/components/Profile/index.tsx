@@ -128,8 +128,8 @@ const ViewProfile: NextPage = () => {
         <Gfmmodal
           isOpen={isModalOpen}
           onClose={closeModal}
-          subscription={subscription}
           profile={profile}
+          subscription={subscription}
         />
       </GridLayout>
     </>

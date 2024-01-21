@@ -1,33 +1,34 @@
+import type { Profile } from '@hey/lens';
+
 import { GiftIcon } from '@heroicons/react/24/outline';
 import { Card, Modal } from '@hey/ui';
+import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { useReadContract } from 'wagmi';
 
 import gold from '../../../public/coingold.svg';
 import pink from '../../../public/coinpink.svg';
 import Stepper from './Stepper';
-import { useReadContract } from 'wagmi';
-import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
-import { Profile } from '@hey/lens';
 interface GfmmodalProps {
   children?: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  subscription: boolean;
   profile: Profile;
+  subscription: boolean;
 }
 
 const Gfmmodal: React.FC<GfmmodalProps> = ({
   isOpen,
   onClose,
-  subscription,
-  profile
+  profile,
+  subscription
 }) => {
   const { data: account } = useReadContract({
-    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
     abi: MODULE_ABI,
-    functionName: 'accounts',
-    args: [profile.id]
+    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
+    args: [profile.id],
+    functionName: 'accounts'
   });
   const [step, setStep] = useState(1);
   const [tokenName, setTokenName] = useState('Gab Fan Token');

@@ -7,7 +7,6 @@ import Follow from '@components/Shared/Profile/Follow';
 import Unfollow from '@components/Shared/Profile/Unfollow';
 import Slug from '@components/Shared/Slug';
 import SuperFollow from '@components/Shared/SuperFollow';
-import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
 import {
   ClockIcon,
   Cog6ToothIcon,
@@ -37,6 +36,7 @@ import getProfile from '@hey/lib/getProfile';
 import getProfileAttribute from '@hey/lib/getProfileAttribute';
 import hasMisused from '@hey/lib/hasMisused';
 import { Button, Image, LightBox, Modal, Tooltip } from '@hey/ui';
+import { DEPLOYMENTS, MODULE_ABI } from '@lib/ghoFundMeConstants';
 import isVerified from '@lib/isVerified';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -44,6 +44,7 @@ import { useState } from 'react';
 import { useFeatureFlagsStore } from 'src/store/persisted/useFeatureFlagsStore';
 import useProfileStore from 'src/store/persisted/useProfileStore';
 import urlcat from 'urlcat';
+import { useReadContract } from 'wagmi';
 
 import Badges from './Badges';
 import Followerings from './Followerings';
@@ -53,7 +54,6 @@ import MutualFollowers from './MutualFollowers';
 import MutualFollowersList from './MutualFollowers/List';
 import ScamWarning from './ScamWarning';
 import TbaBadge from './TbaBadge';
-import { useReadContract } from 'wagmi';
 
 interface DetailsProps {
   onsubscribe?: () => void;
@@ -82,10 +82,10 @@ const Details: FC<DetailsProps> = ({ onsubscribe, profile }) => {
   );
 
   const { data: account } = useReadContract({
-    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
     abi: MODULE_ABI,
-    functionName: 'accounts',
-    args: [profile.id]
+    address: DEPLOYMENTS.ghoFundMeModule as `0x${string}`,
+    args: [profile.id],
+    functionName: 'accounts'
   });
   const followType = profile?.followModule?.type;
   const misuseDetails = getMisuseDetails(profile.id);
